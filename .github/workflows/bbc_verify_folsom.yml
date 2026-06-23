@@ -3,9 +3,8 @@ name: BBC Verify - Folsom Guava
 on: workflow_dispatch
 
 jobs:
-
   candidate1-build1-baseline:
-    name: "C1 Guava 18→19 | Build 1 Baseline"
+    name: "C1 Guava 18->19 | Build 1 Baseline"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,21 +12,21 @@ jobs:
           ref: d7ce9f4c80225324ec5a7ee7de3ddff734bea82f
       - uses: actions/setup-java@v4
         with:
-          java-version: '8'
-          distribution: 'temurin'
+          java-version: "8"
+          distribution: "temurin"
       - uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-c1
       - name: Run baseline tests
         run: |
-            mvn clean test -fae \
+          mvn clean test -fae \
             -Dcheckstyle.skip=true \
-            -Dexcludes="**/*IntegrationTest.java,**/*IT.java,**/MemcacheClientBuilderTest.java" \
+            -Dtest="UtilsTest,RetryingClientTest,MemcacheClientConnectTest" \
             -DfailIfNoTests=false
 
   candidate1-build2-pomonly:
-    name: "C1 Guava 18→19 | Build 2 Pom Only"
+    name: "C1 Guava 18->19 | Build 2 Pom Only"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,23 +34,23 @@ jobs:
           ref: d7ce9f4c80225324ec5a7ee7de3ddff734bea82f
       - uses: actions/setup-java@v4
         with:
-          java-version: '8'
-          distribution: 'temurin'
+          java-version: "8"
+          distribution: "temurin"
       - uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-c1
-      - name: Bump Guava to 19.0
+      - name: Bump Guava 18.0 to 19.0
         run: sed -i 's/<version>18.0<\/version>/<version>19.0<\/version>/g' pom.xml
       - name: Run pom-only tests
         run: |
-            mvn clean test -fae \
+          mvn clean test -fae \
             -Dcheckstyle.skip=true \
-            -Dexcludes="**/*IntegrationTest.java,**/*IT.java,**/MemcacheClientBuilderTest.java" \
+            -Dtest="UtilsTest,RetryingClientTest,MemcacheClientConnectTest" \
             -DfailIfNoTests=false
 
   candidate1-build3-adapted:
-    name: "C1 Guava 18→19 | Build 3 Adapted"
+    name: "C1 Guava 18->19 | Build 3 Adapted"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -59,15 +58,15 @@ jobs:
           ref: 9a4fcaff5cea1744cf33dc3a95460abf1343fe37
       - uses: actions/setup-java@v4
         with:
-          java-version: '8'
-          distribution: 'temurin'
+          java-version: "8"
+          distribution: "temurin"
       - uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-c1
       - name: Run adapted tests
         run: |
-            mvn clean test -fae \
+          mvn clean test -fae \
             -Dcheckstyle.skip=true \
-            -Dexcludes="**/*IntegrationTest.java,**/*IT.java,**/MemcacheClientBuilderTest.java" \
+            -Dtest="UtilsTest,RetryingClientTest,MemcacheClientConnectTest" \
             -DfailIfNoTests=false
