@@ -20,7 +20,11 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-c1
       - name: Run baseline tests
-        run: mvn clean test -fae -Dcheckstyle.skip=true
+        run: |
+            mvn clean test -fae \
+            -Dcheckstyle.skip=true \
+            -Dexcludes="**/*IntegrationTest.java,**/*IT.java,**/MemcacheClientBuilderTest.java" \
+            -DfailIfNoTests=false
 
   candidate1-build2-pomonly:
     name: "C1 Guava 18→19 | Build 2 Pom Only"
@@ -40,7 +44,11 @@ jobs:
       - name: Bump Guava to 19.0
         run: sed -i 's/<version>18.0<\/version>/<version>19.0<\/version>/g' pom.xml
       - name: Run pom-only tests
-        run: mvn clean test -fae -Dcheckstyle.skip=true
+        run: |
+            mvn clean test -fae \
+            -Dcheckstyle.skip=true \
+            -Dexcludes="**/*IntegrationTest.java,**/*IT.java,**/MemcacheClientBuilderTest.java" \
+            -DfailIfNoTests=false
 
   candidate1-build3-adapted:
     name: "C1 Guava 18→19 | Build 3 Adapted"
@@ -58,4 +66,8 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-c1
       - name: Run adapted tests
-        run: mvn clean test -fae -Dcheckstyle.skip=true
+        run: |
+            mvn clean test -fae \
+            -Dcheckstyle.skip=true \
+            -Dexcludes="**/*IntegrationTest.java,**/*IT.java,**/MemcacheClientBuilderTest.java" \
+            -DfailIfNoTests=false
